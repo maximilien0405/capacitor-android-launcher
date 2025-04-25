@@ -14,7 +14,7 @@ export class AndroidLauncherWeb extends WebPlugin implements AndroidLauncherPlug
     throw new Error('stopImmersiveMode is not supported on the web.');
   }
 
-  async isLauncherApp(): Promise<{ isLauncher: boolean }> {
+  async isLauncherApp(): Promise<boolean> {
     throw new Error('stopImmersiveMode is not supported on the web.');
   }
 }
