@@ -1,9 +1,16 @@
 package com.maximilien0405.androidlauncher;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
+
+import androidx.annotation.Nullable;
+
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
-import com.getcapacitor.annotation.CapacitorPlugin;
+import com.getcapacitor.PluginMethod;
+import com.getcapacitor.JSObject;
+
 
 @CapacitorPlugin(name = "AndroidLauncher")
 public class AndroidLauncherPlugin extends Plugin {
