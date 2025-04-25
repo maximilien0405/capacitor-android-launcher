@@ -1,12 +1,9 @@
 import { registerPlugin } from '@capacitor/core';
+import { AndroidLauncherPlugin } from './definitions';
 
-export interface AndroidLauncherPlugin {
-  requestLauncherRole(): Promise<void>;
-  removeLauncherRole(): Promise<void>;
-  isLauncherApp(): Promise<{ isLauncher: boolean }>;
-}
-
-const AndroidLauncher = registerPlugin<AndroidLauncherPlugin>('AndroidLauncher');
+const AndroidLauncher = registerPlugin<AndroidLauncherPlugin>('AndroidLauncher', {
+  web: () => import('./web').then(m => new m.AndroidLauncherWeb()),
+});
 
 export * from './definitions';
 export { AndroidLauncher };

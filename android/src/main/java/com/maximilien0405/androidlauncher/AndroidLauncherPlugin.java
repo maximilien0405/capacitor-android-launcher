@@ -1,41 +1,44 @@
 package com.maximilien0405.androidlauncher;
 
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.os.Build;
-
-import androidx.annotation.Nullable;
-
+import com.getcapacitor.JSObject;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
-import com.getcapacitor.JSObject;
-
+import com.getcapacitor.annotation.CapacitorPlugin;
 
 @CapacitorPlugin(name = "AndroidLauncher")
 public class AndroidLauncherPlugin extends Plugin {
-    private AndroidLauncher implementation;
+
+    private AndroidLauncher androidLauncher;
 
     @Override
     public void load() {
-        implementation = new AndroidLauncher(getActivity());
+        super.load();
+        androidLauncher = new AndroidLauncher(getActivity()); 
     }
 
+    // Opens the launcher settings
     @com.getcapacitor.PluginMethod
-    public void requestLauncherRole(PluginCall call) {
-        implementation.requestLauncherRole();
-        call.resolve();
+    public void openLauncherSettings(PluginCall call) {
+        androidLauncher.openLauncherSettings(call);
     }
 
+    // Starts immersive mode to hide all controls
     @com.getcapacitor.PluginMethod
-    public void removeLauncherRole(PluginCall call) {
-        implementation.removeLauncherRole();
-        call.resolve();
+    public void startImmersiveMode(PluginCall call) {
+        androidLauncher.startImmersiveMode(call);
     }
 
+    // Stops immersive mode and restores controls
+    @com.getcapacitor.PluginMethod
+    public void stopImmersiveMode(PluginCall call) {
+        androidLauncher.stopImmersiveMode(call);
+    }
+
+    // Checks if the app is the launcher
     @com.getcapacitor.PluginMethod
     public void isLauncherApp(PluginCall call) {
-        boolean isLauncher = implementation.isLauncherApp();
+        boolean isLauncher = androidLauncher.isLauncherApp();
         JSObject ret = new JSObject();
         ret.put("isLauncher", isLauncher);
         call.resolve(ret);

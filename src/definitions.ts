@@ -1,5 +1,6 @@
 export interface AndroidLauncherPlugin {
-  requestLauncherRole(): Promise<void>;
-  removeLauncherRole(): Promise<void>;
-  isLauncherApp(): Promise<{ isLauncher: boolean }>;
+  openLauncherSettings(): Promise<void>;
+  startImmersiveMode(): Promise<void>;
+  stopImmersiveMode(): Promise<void>;
+  isLauncherApp(): Promise<boolean>;
 }

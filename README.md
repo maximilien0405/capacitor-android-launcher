@@ -1,39 +1,61 @@
-# @maximilien0405/capacitor-android-launcher
+# Capacitor Android Launcher Plugin
 
-A Capacitor plugin that lets your Android app request to become the system launcher (home screen app), remove itself as the launcher, and check if it's currently the default launcher.
+This Capacitor plugin allows you to open the launcher settings to set your app as the default launcher on Android. 
+
+It can also, if needed, start (and stop) and immersive mode that hides all UI elements and prevents your user from leaving the app. This is usefull for an Kiosk App, or for children or seniors.
 
 ## Installation
 
 ```bash
-npm install capacitor-android-launcher
+npm install @maximilien0405/capacitor-android-launcher
 npx cap sync
 ```
 
-And then import it like that : 
+## Usage
+
+
+#### Request Launcher Role
+
+This method opens the settings page where the user can set your app as the default launcher.
 
 ```ts
-import { AndroidLauncher } from '@maximilien0405/capacitor-android-launcher';
+await AndroidLauncher.openLauncherSettings();
 ```
 
-## Methods
+#### Start Immersive Mode
 
-``requestLauncherRole(): Promise<{ granted: boolean }>``
-Prompts the user to set your app as the default launcher.
+This method hides all system controls and prevents the user from leaving the app.
+
+> ⚠️ The app must be set as the launcher for it to work.
 
 ```ts
-const { granted } = await AndroidLauncher.requestLauncherRole();
+await AndroidLauncher.startImmersiveMode();
 ```
-<br>
-``removeLauncherRole(): Promise<void>``
-Opens system settings so the user can choose another default launcher.
+
+#### Stop Immersive Mode
+
+This method restores the system controls and allows the user to exit the app.
 
 ```ts
-await AndroidLauncher.removeLauncherRole();
+await AndroidLauncher.stopImmersiveMode();
 ```
-<br>
-``isLauncherDefault(): Promise<{ isDefault: boolean }>``
-Checks if your app is currently the default launcher.
+
+#### Check if the App is the Launcher
+
+This method checks if your app is currently set as the default launcher.
 
 ```ts
-const { isDefault } = await AndroidLauncher.isLauncherDefault();
+const isLauncher = await AndroidLauncher.isLauncherApp();
+console.log(isLauncher);  // true or false
+```
+
+## API
+
+```ts
+interface AndroidLauncherPlugin {
+  openLauncherSettings(): Promise<void>;
+  startImmersiveMode(): Promise<void>;
+  stopImmersiveMode(): Promise<void>;
+  isLauncherApp(): Promise<boolean>;
+}
 ```
