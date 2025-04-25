@@ -1,3 +1,5 @@
 export interface AndroidLauncherPlugin {
-  echo(options: { value: string }): Promise<{ value: string }>;
+  requestLauncherRole(): Promise<void>;
+  removeLauncherRole(): Promise<void>;
+  isLauncherApp(): Promise<{ isLauncher: boolean }>;
 }

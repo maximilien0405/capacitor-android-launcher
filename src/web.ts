@@ -1,10 +1,16 @@
 import { WebPlugin } from '@capacitor/core';
-
 import type { AndroidLauncherPlugin } from './definitions';
 
 export class AndroidLauncherWeb extends WebPlugin implements AndroidLauncherPlugin {
-  async echo(options: { value: string }): Promise<{ value: string }> {
-    console.log('ECHO', options);
-    return options;
+  async requestLauncherRole(): Promise<void> {
+    throw this.unavailable('requestLauncherRole is not available on web.');
+  }
+
+  async removeLauncherRole(): Promise<void> {
+    throw this.unavailable('removeLauncherRole is not available on web.');
+  }
+
+  async isLauncherApp(): Promise<{ isLauncher: boolean }> {
+    return { isLauncher: false };
   }
 }

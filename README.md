@@ -1,37 +1,39 @@
 # @maximilien0405/capacitor-android-launcher
 
-Capacitor plugin to set your android app as launcher.
+A Capacitor plugin that lets your Android app request to become the system launcher (home screen app), remove itself as the launcher, and check if it's currently the default launcher.
 
-## Install
+## Installation
 
 ```bash
-npm install @maximilien0405/capacitor-android-launcher
+npm install capacitor-android-launcher
 npx cap sync
 ```
 
-## API
+And then import it like that : 
 
-<docgen-index>
-
-* [`echo(...)`](#echo)
-
-</docgen-index>
-
-<docgen-api>
-<!--Update the source file JSDoc comments and rerun docgen to update the docs below-->
-
-### echo(...)
-
-```typescript
-echo(options: { value: string; }) => Promise<{ value: string; }>
+```ts
+import { AndroidLauncher } from '@maximilien0405/capacitor-android-launcher';
 ```
 
-| Param         | Type                            |
-| ------------- | ------------------------------- |
-| **`options`** | <code>{ value: string; }</code> |
+## Methods
 
-**Returns:** <code>Promise&lt;{ value: string; }&gt;</code>
+``requestLauncherRole(): Promise<{ granted: boolean }>``
+Prompts the user to set your app as the default launcher.
 
---------------------
+```ts
+const { granted } = await AndroidLauncher.requestLauncherRole();
+```
+<br>
+``removeLauncherRole(): Promise<void>``
+Opens system settings so the user can choose another default launcher.
 
-</docgen-api>
+```ts
+await AndroidLauncher.removeLauncherRole();
+```
+<br>
+``isLauncherDefault(): Promise<{ isDefault: boolean }>``
+Checks if your app is currently the default launcher.
+
+```ts
+const { isDefault } = await AndroidLauncher.isLauncherDefault();
+```
