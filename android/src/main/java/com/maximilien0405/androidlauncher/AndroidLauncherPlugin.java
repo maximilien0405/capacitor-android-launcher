@@ -14,7 +14,7 @@ public class AndroidLauncherPlugin extends Plugin {
     @Override
     public void load() {
         super.load();
-        androidLauncher = new AndroidLauncher(getActivity()); 
+        androidLauncher = new AndroidLauncher(getActivity(), getBridge());
     }
 
     // Opens the launcher settings

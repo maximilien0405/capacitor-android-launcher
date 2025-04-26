@@ -2,7 +2,11 @@
 
 This Capacitor plugin allows you to open the launcher settings to set your app as the default launcher on Android. 
 
-It can also, if needed, start (and stop) and immersive mode that hides all UI elements and prevents your user from leaving the app. This is usefull for an Kiosk App, or for children or seniors.
+It can also, if needed, start (and stop) and immersive mode that hides all UI elements. This is usefull for an Kiosk App, or for special apps made for childrens or seniors.
+
+## Support
+
+- v7.X.X supports Capacitor V7 (IOS 14+, Android minSdkVersion 23+).
 
 ## Installation
 
@@ -24,7 +28,7 @@ await AndroidLauncher.openLauncherSettings();
 
 #### Start Immersive Mode
 
-This method hides all system controls and prevents the user from leaving the app.
+This method hides all system controls.
 
 > ⚠️ The app must be set as the launcher for it to work.
 
@@ -34,7 +38,7 @@ await AndroidLauncher.startImmersiveMode();
 
 #### Stop Immersive Mode
 
-This method restores the system controls and allows the user to exit the app.
+This method restores the system controls.
 
 ```ts
 await AndroidLauncher.stopImmersiveMode();
@@ -47,15 +51,4 @@ This method checks if your app is currently set as the default launcher.
 ```ts
 const isLauncher = await AndroidLauncher.isLauncherApp();
 console.log(isLauncher);  // true or false
-```
-
-## API
-
-```ts
-interface AndroidLauncherPlugin {
-  openLauncherSettings(): Promise<void>;
-  startImmersiveMode(): Promise<void>;
-  stopImmersiveMode(): Promise<void>;
-  isLauncherApp(): Promise<boolean>;
-}
 ```
