@@ -2,11 +2,13 @@
 
 This Capacitor plugin allows you to open the launcher settings to set your app as the default launcher on Android. 
 
-It can also, if needed, start (and stop) and immersive mode that hides all UI elements. This is usefull for an Kiosk App, or for special apps made for childrens or seniors.
+It can also, if needed, start (and stop) and immersive mode that hides the all UI elements (status bar and navigation bar). This is usefull for an Kiosk App, or for special apps made for childrens or seniors.
 
 ## Support
 
-- v7.X.X supports Capacitor V7 (IOS 14+, Android minSdkVersion 23+).
+ANDROID Only.
+
+- v7.X.X supports Capacitor V7 (Android minSdkVersion 23+).
 
 ## Installation
 
@@ -18,7 +20,7 @@ npx cap sync
 ## Usage
 
 
-#### Request Launcher Role
+#### Open Launcher Settings
 
 This method opens the settings page where the user can set your app as the default launcher.
 
@@ -44,7 +46,7 @@ This method restores the system controls.
 await AndroidLauncher.stopImmersiveMode();
 ```
 
-#### Check if the App is the Launcher
+#### Check if is the Launcher
 
 This method checks if your app is currently set as the default launcher.
 
