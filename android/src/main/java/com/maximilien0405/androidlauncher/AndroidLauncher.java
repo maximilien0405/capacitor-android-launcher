@@ -43,11 +43,40 @@ public class AndroidLauncher {
         }
     }
 
+    private void setImmersiveMode(boolean enable) {
+        immersiveModeEnabled = enable;
+        View decorView = this.bridge.getActivity().getWindow().getDecorView();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            WindowInsetsController insetsController = decorView.getWindowInsetsController();
+            if (insetsController != null) {
+                if (enable) {
+                    insetsController.hide(WindowInsets.Type.statusBars() | WindowInsets.Type.navigationBars());
+                    insetsController.setSystemBarsBehavior(WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE);
+                } else {
+                    insetsController.show(WindowInsets.Type.statusBars() | WindowInsets.Type.navigationBars());
+                    insetsController.setSystemBarsBehavior(WindowInsetsController.BEHAVIOR_SHOW_BARS_BY_TOUCH);
+                }
+            }
+        } else {
+            int flags = enable
+                    ? View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                    : View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+            decorView.setSystemUiVisibility(flags);
+        }
+    }
+
     // Starts immersive mode
     public void startImmersiveMode(PluginCall call) {
         runOnMainThread(() -> {
             try {
-                enableImmersiveMode();
+                setImmersiveMode(true);
+                setupSystemUiVisibilityListener();
                 call.resolve();
             } catch (Exception e) {
                 call.reject("Error starting immersive mode", e);
@@ -55,55 +84,17 @@ public class AndroidLauncher {
         });
     }
 
-    private void enableImmersiveMode() {
-        immersiveModeEnabled = true;
-        setupSystemUiVisibilityListener();
-        View decorView = this.bridge.getActivity().getWindow().getDecorView();
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            WindowInsetsController insetsController = decorView.getWindowInsetsController();
-            if (insetsController != null) {
-                insetsController.hide(WindowInsets.Type.statusBars() | WindowInsets.Type.navigationBars());
-                insetsController.setSystemBarsBehavior(WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE);
-            }
-        } else {
-            int flags = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                    | View.SYSTEM_UI_FLAG_FULLSCREEN
-                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
-            decorView.setSystemUiVisibility(flags);
-        }
-    }
-
     // Stops immersive mode
     public void stopImmersiveMode(PluginCall call) {
         runOnMainThread(() -> {
             try {
-                clearImmersiveMode();
+                setImmersiveMode(false);
+                removeSystemUiVisibilityListener();
                 call.resolve();
             } catch (Exception e) {
                 call.reject("Error stopping immersive mode", e);
             }
         });
-    }
-
-    private void clearImmersiveMode() {
-        immersiveModeEnabled = false;
-        removeSystemUiVisibilityListener();
-        View decorView = this.bridge.getActivity().getWindow().getDecorView();
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            WindowInsetsController insetsController = decorView.getWindowInsetsController();
-            if (insetsController != null) {
-                insetsController.show(WindowInsets.Type.statusBars() | WindowInsets.Type.navigationBars());
-                insetsController.setSystemBarsBehavior(WindowInsetsController.BEHAVIOR_SHOW_BARS_BY_TOUCH);
-            }
-        } else {
-            int flags = View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
-            decorView.setSystemUiVisibility(flags);
-        }
     }
 
     // Helper to run things on the UI thread
@@ -132,14 +123,14 @@ public class AndroidLauncher {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             focusChangeListener = hasFocus -> {
                 if (immersiveModeEnabled && hasFocus) {
-                    enableImmersiveMode();
+                    setImmersiveMode(true);
                 }
             };
             decorView.getViewTreeObserver().addOnWindowFocusChangeListener(focusChangeListener);
         } else {
             systemUiVisibilityChangeListener = visibility -> {
                 if (immersiveModeEnabled && (visibility & View.SYSTEM_UI_FLAG_FULLSCREEN) == 0) {
-                    enableImmersiveMode();
+                    setImmersiveMode(true);
                 }
             };
             decorView.setOnSystemUiVisibilityChangeListener(systemUiVisibilityChangeListener);

@@ -1,22 +1,26 @@
 # Capacitor Android Launcher Plugin
 
-This Capacitor plugin allows you to open the launcher settings to set your app as the default launcher on Android. 
+The Capacitor Android Launcher Plugin allows you to set your app as the default launcher on Android devices. 
 
-It can also, if needed, start (and stop) and immersive mode that hides the all UI elements (status bar and navigation bar). This is usefull for an Kiosk App, or for special apps made for childrens or seniors.
-
-> When set as the default launcher, your user will still be able to exit it, but when it happens it will re-open the app.
-If you really want to prevent your user from leaving, i suggest "pinning" the app, and then setting it as the default launcher. 
+It also provides immersive mode functionality, which hides all system UI elements (status bar and navigation bar). This can be useful for kiosk apps or even apps designed for children or seniors.
 
 ## Installation
+
+To install the plugin, run the following commands:
 
 ```bash
 npm install @maximilien0405/capacitor-android-launcher
 npx cap sync
 ```
 
+And import it just like this:
+```ts
+import { AndroidLauncher } from '@maximilien0405/capacitor-android-launcher';
+```
+
 ## Usage
 
-#### Open Launcher Settings
+### Open Launcher Settings
 
 This method opens the settings page where the user can set your app as the default launcher.
 
@@ -24,27 +28,39 @@ This method opens the settings page where the user can set your app as the defau
 await AndroidLauncher.openLauncherSettings();
 ```
 
-#### Start Immersive Mode
+### Start Immersive Mode
 
-This method hides all system controls. 
+This method hides all system UI elements, creating a full-screen experience.
 
 ```ts
 await AndroidLauncher.startImmersiveMode();
 ```
 
-#### Stop Immersive Mode
+### Stop Immersive Mode
 
-This method restores the system controls.
+This method restores the system UI elements.
 
 ```ts
 await AndroidLauncher.stopImmersiveMode();
 ```
 
-#### Check if is the Launcher
+### Check if App is the Default Launcher
 
 This method checks if your app is currently set as the default launcher.
 
 ```ts
 const isLauncher = await AndroidLauncher.isLauncherApp();
-console.log(isLauncher);  // true or false
+console.log(isLauncher); // true or false
 ```
+
+## Notes
+
+- When set as the default launcher, users can still exit the app. To prevent this, consider using Android's "pinning" feature in combination with this plugin.
+
+## Support
+
+For issues or feature requests, please open an issue on the [GitHub repository](https://github.com/maximilien0405/capacitor-android-launcher).
+
+## License
+
+This project is licensed under the MIT License. See the LICENSE file for details.
