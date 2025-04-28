@@ -17,7 +17,6 @@
     "@capacitor/camera": "latest",
     "@capacitor/splash-screen": "latest",
     "@maximilien0405/capacitor-android-launcher": "file:..",
-    "@capacitor/ios": "7.0.0",
     "@capacitor/android": "7.0.0"
   },
   "devDependencies": {
