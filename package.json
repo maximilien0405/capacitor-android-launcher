@@ -1,6 +1,6 @@
 {
   "name": "@maximilien0405/capacitor-android-launcher",
-  "version": "7.0.4",
+  "version": "7.0.5",
   "description": "Capacitor plugin to request your app to be the main launcher.",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
