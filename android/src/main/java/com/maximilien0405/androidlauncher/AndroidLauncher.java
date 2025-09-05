@@ -111,8 +111,17 @@ public class AndroidLauncher {
         PackageManager packageManager = activity.getPackageManager();
         Intent intent = new Intent(Intent.ACTION_MAIN);
         intent.addCategory(Intent.CATEGORY_HOME);
-        ResolveInfo resolveInfo = packageManager.resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY);
-        return resolveInfo.activityInfo.packageName.equals(activity.getPackageName());
+        
+        // Get the default launcher by resolving the HOME intent
+        ResolveInfo defaultLauncher = packageManager.resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY);
+        
+        if (defaultLauncher == null) {
+            return false;
+        }
+        
+        // Check if the default launcher is our app
+        String myPackageName = activity.getPackageName();
+        return defaultLauncher.activityInfo.packageName.equals(myPackageName);
     }
 
     // Listen to system UI changes and hide UI if swiped
